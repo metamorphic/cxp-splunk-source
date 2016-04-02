@@ -9,7 +9,6 @@
 		http://www.springframework.org/schema/integration/splunk http://www.springframework.org/schema/integration/splunk/spring-integration-splunk.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <context:property-placeholder location="classpath:config/application.properties" ignore-resource-not-found="true"/>
     <context:component-scan base-package="org.springframework.integration.splunk.support"></context:component-scan>
     <context:component-scan base-package="org.springframework.integration.splunk.inbound"></context:component-scan>
 
@@ -17,7 +16,7 @@
     <int:channel id="temp"/>
 
     <int-splunk:inbound-channel-adapter id="splunkInboundChannelAdapter"
-                                        saved-search="${splunk.saved-search}"
+                                        saved-search="${savedSearch}"
                                         splunk-server-ref="splunkServer"
                                         channel="input" mode="SAVEDSEARCH"
                                         earliest-time="-3d" latest-time="now" init-earliest-time="-3d">
@@ -35,8 +34,8 @@
 
     <int:channel id="output"/>
 
-    <int-splunk:server id="splunkServer" host="${splunk.host}"
-                       username="${splunk.username}" password="${splunk.password}"
-                       owner="${splunk.owner}" timeout="5000"/>
+    <int-splunk:server id="splunkServer" host="${host}" port="${port}"
+                       username="${username}" password="${password}"
+                       owner="${owner}" timeout="5000"/>
 
 </beans>
