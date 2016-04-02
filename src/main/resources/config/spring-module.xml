@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-splunk="http://www.springframework.org/schema/integration/splunk"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/integration/splunk http://www.springframework.org/schema/integration/splunk/spring-integration-splunk.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder location="classpath:config/application.properties" ignore-resource-not-found="true"/>
+    <context:component-scan base-package="org.springframework.integration.splunk.support"></context:component-scan>
+    <context:component-scan base-package="org.springframework.integration.splunk.inbound"></context:component-scan>
+
+    <int:channel id="input"/>
+    <int:channel id="temp"/>
+
+    <int-splunk:inbound-channel-adapter id="splunkInboundChannelAdapter"
+                                        saved-search="${splunk.saved-search}"
+                                        splunk-server-ref="splunkServer"
+                                        channel="input" mode="SAVEDSEARCH"
+                                        earliest-time="-3d" latest-time="now" init-earliest-time="-3d">
+        <int:poller fixed-rate="5" time-unit="SECONDS"/>
+    </int-splunk:inbound-channel-adapter>
+
+    <int:splitter input-channel="input" output-channel="temp"/>
+
+    <int:transformer id="messageTransformer"
+                     input-channel="temp"
+                     output-channel="output"
+                     method="transform">
+        <bean class="cxp.ingest.MessageTransformer"/>
+    </int:transformer>
+
+    <int:channel id="output"/>
+
+    <int-splunk:server id="splunkServer" host="${splunk.host}"
+                       username="${splunk.username}" password="${splunk.password}"
+                       owner="${splunk.owner}" timeout="5000"/>
+
+</beans>

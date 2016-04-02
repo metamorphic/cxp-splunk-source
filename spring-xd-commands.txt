@@ -1,0 +1,16 @@
+module upload --type source --name cxp-splunk-source --file ./build/libs/cxp-splunk-source-1.0.jar
+
+stream create --name splunktest --definition "cxp-splunk-source | hdfs-dataset --format=parquet --fsUri='hdfs://localhost:9000'" --deploy
+
+stream create --name splunktap --definition "tap:stream:splunktest > log" --deploy
+
+stream create --name splunktest --definition "cxp-splunk-source | log" --deploy
+
+hadoop config fs --namenode hdfs://localhost:9000
+
+stream destroy --name splunktap
+
+stream destroy --name splunktest
+
+module delete --name source:cxp-splunk-source
+
