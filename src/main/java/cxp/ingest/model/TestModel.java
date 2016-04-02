@@ -63,7 +63,7 @@ public class TestModel implements Serializable {
 
     @Override
     public String toString() {
-        boolean multiline = true;
+        boolean multiline = false;
         String indent = "";
         String delim = " ";
         String edgeDelim = "";
