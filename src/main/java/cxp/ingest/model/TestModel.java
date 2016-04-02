@@ -60,4 +60,25 @@ public class TestModel implements Serializable {
     public void setRequestTime(String requestTime) {
         this.requestTime = requestTime;
     }
+
+    @Override
+    public String toString() {
+        boolean multiline = true;
+        String indent = "";
+        String delim = " ";
+        String edgeDelim = "";
+        if (multiline) {
+            indent = "    ";
+            delim = edgeDelim = "\n";
+        }
+        StringBuilder sb = new StringBuilder("{")
+                .append(edgeDelim)
+                .append(indent).append("\"clientIp\": \"").append(clientIp).append("\",").append(delim)
+                .append(indent).append("\"uriPath\": \"").append(uriPath).append("\",").append(delim)
+                .append(indent).append("\"sessionId\": \"").append(sessionId).append("\",").append(delim)
+                .append(indent).append("\"source\": \"").append(source).append("\",").append(delim)
+                .append(indent).append("\"requestTime\": \"").append(requestTime).append("\"").append(edgeDelim)
+                .append("}");
+        return sb.toString();
+    }
 }

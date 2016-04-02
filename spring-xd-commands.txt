@@ -1,10 +1,10 @@
 module upload --type source --name splunk --file ./build/libs/cxp-splunk-source-1.0.jar
 
-stream create --name splunktest --definition "splunk --host=localhost --username=admin --password=password --owner=admin --savedSearch=www1_access_20160331PM | hdfs-dataset --format=parquet --fsUri='hdfs://localhost:9000'" --deploy
+stream create --name splunktest --definition "splunk --host=localhost --username=admin --password=password --owner=admin --savedSearch=www1_access_20160331PM --fixedDelay=5 --fixedDelayUnit=SECONDS | hdfs-dataset --format=parquet --fsUri='hdfs://localhost:9000'" --deploy
 
 stream create --name splunktap --definition "tap:stream:splunktest > log" --deploy
 
-stream create --name splunktest --definition "splunk --host=localhost --username=admin --password=password --owner=admin --savedSearch=www1_access_20160331PM | log" --deploy
+stream create --name splunktest --definition "splunk --host=localhost --username=admin --password=password --owner=admin --savedSearch=www1_access_20160331PM --fixedDelay=5 --fixedDelayUnit=SECONDS | log" --deploy
 
 hadoop config fs --namenode hdfs://localhost:9000
 

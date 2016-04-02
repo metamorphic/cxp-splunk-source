@@ -19,8 +19,8 @@
                                         saved-search="${savedSearch}"
                                         splunk-server-ref="splunkServer"
                                         channel="input" mode="SAVEDSEARCH"
-                                        earliest-time="-3d" latest-time="now" init-earliest-time="-3d">
-        <int:poller fixed-rate="5" time-unit="SECONDS"/>
+                                        latest-time="now" init-earliest-time="-3d">
+        <int:poller fixed-rate="${fixedDelay}" time-unit="${fixedDelayUnit}"/>
     </int-splunk:inbound-channel-adapter>
 
     <int:splitter input-channel="input" output-channel="temp"/>
@@ -36,6 +36,6 @@
 
     <int-splunk:server id="splunkServer" host="${host}" port="${port}"
                        username="${username}" password="${password}"
-                       owner="${owner}" timeout="5000"/>
+                       owner="${owner}" timeout="10000"/>
 
 </beans>

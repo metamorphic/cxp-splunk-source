@@ -9,4 +9,3 @@ val withDate = test.withColumn("request_dt", col("requestTime").cast("date"))
 withDate.printSchema
 
 withDate.show
-
