@@ -42,7 +42,7 @@ import java.nio.charset.StandardCharsets;
  */
 public class ChunkedDataParser {
 
-    public String read(String input) {
+    public static String read(String input) {
         ByteArrayInputStream stream = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
         try {
             ChunkedInputStream cis = new ChunkedInputStream(stream, new HttpClient() {}, null);
@@ -53,7 +53,7 @@ public class ChunkedDataParser {
         }
     }
 
-    public String readFully(InputStream stream) throws IOException {
+    public static String readFully(InputStream stream) throws IOException {
         return new String(ByteStreams.toByteArray(stream));
     }
 

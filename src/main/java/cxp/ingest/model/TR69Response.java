@@ -369,15 +369,6 @@ public class TR69Response {
         this.user = user;
     }
 
-    public String getSrcSoapXml() {
-        Pattern pattern = Pattern.compile("<soapenv:Envelope.*<\\/soapenv:Envelope>", Pattern.DOTALL);
-        Matcher matcher = pattern.matcher(srcContent);
-        if (matcher.find()) {
-            return matcher.group(0);
-        }
-        return srcContent;
-    }
-
     public Map<String, String> getHeaders() {
         if (headersMemo != null) return headersMemo;
         if (srcHeaders == null) {

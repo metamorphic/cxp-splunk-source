@@ -4,6 +4,7 @@ import cxp.ingest.model.CWMPInform;
 import cxp.ingest.model.DeviceSummaries;
 import cxp.ingest.model.SplunkSearchResult;
 import cxp.ingest.model.TR69Response;
+import cxp.ingest.util.ChunkedDataParser;
 import cxp.ingest.util.DeviceSummaryParser;
 import cxp.ingest.util.HttpHeaderParser;
 import cxp.ingest.util.SoapParser;
@@ -65,7 +66,7 @@ public class JsonParseTest {
 
         assertThat(headers.get("Transfer-Encoding"), is("chunked"));
 
-        String xml = response.getSrcSoapXml();
+        String xml = ChunkedDataParser.read(response.getSrcContent());
 
         //System.out.println(xml);
 

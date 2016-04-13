@@ -34,9 +34,12 @@ The data from Splunk can be parsed as follows:
         // parse the response headers
         InputStream stream = new ByteArrayInputStream(response.getSrcHeaders().getBytes(StandardCharsets.UTF_8));
         Map<String, String> headers = HttpHeaderParser.parseHTTPHeaders(stream);
-        
+
+        // decode the SOAP content from chunked transfer encoded text
+        String xml = ChunkedDataParser.read(response.getSrcContent());
+
         // parse the SOAP content
-        CWMPInform message = soapParser.getResult(response.getSrcSoapXml(), CWMPInform.class);
+        CWMPInform message = soapParser.getResult(xml, CWMPInform.class);
         
         // parse the structured text within one of the parameter values
         DeviceSummaries summaries = summaryParser.parse(message.getParameterValue("InternetGatewayDevice.DeviceSummary"));

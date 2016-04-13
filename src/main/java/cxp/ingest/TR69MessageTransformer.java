@@ -2,6 +2,7 @@ package cxp.ingest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import cxp.ingest.model.*;
+import cxp.ingest.util.ChunkedDataParser;
 import cxp.ingest.util.DeviceSummaryParser;
 import cxp.ingest.util.SoapParser;
 import org.springframework.integration.splunk.event.SplunkEvent;
@@ -37,7 +38,8 @@ public class TR69MessageTransformer implements MessageTransformer<InternetGatewa
         try {
             SplunkSearchResult result = mapper.readValue(event.toString(), SplunkSearchResult.class);
             TR69Response response = mapper.readValue(result.getRaw(), TR69Response.class);
-            CWMPInform message = soapParser.getResult(response.getSrcSoapXml(), CWMPInform.class);
+            String xml = ChunkedDataParser.read(response.getSrcContent());
+            CWMPInform message = soapParser.getResult(xml, CWMPInform.class);
             DeviceSummaries summaries = summaryParser.parse(message.getParameterValue("InternetGatewayDevice.DeviceSummary"));
 
             InternetGatewayDevice out = new InternetGatewayDevice();
