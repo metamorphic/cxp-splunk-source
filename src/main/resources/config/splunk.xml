@@ -29,7 +29,8 @@
                      input-channel="temp"
                      output-channel="output"
                      method="transform">
-        <bean class="cxp.ingest.MessageTransformer"/>
+        <bean class="cxp.ingest.TestMessageTransformer"/>
+        <!--<bean class="cxp.ingest.TR69MessageTransformer"/>-->
     </int:transformer>
 
     <int:channel id="output"/>
