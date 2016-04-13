@@ -1,8 +1,19 @@
 package cxp.ingest.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
+ * This is all fairly flat based on suggested fields from Alcatel.
+ *
+ * As different devices return different information, include nested
+ * structure to capture variable information.
+ *
+ * Can the hdfs-dataset module of Spring XD handle nested structures?
+ * The hdfs-dataset module uses the Kite SDK kite-data functionality
+ * for this.
+ *
  * Created by markmo on 4/04/2016.
  */
 public class InternetGatewayDevice {
@@ -50,6 +61,10 @@ public class InternetGatewayDevice {
     private String lanDeviceAssociatedDeviceAuthenticationState;
     private String lanDeviceAssociatedDeviceType;
     private String sessionId;
+
+    private List<ParameterValue> parameterValues = new ArrayList<>();
+    private List<DeviceSummary> deviceSummaries = new ArrayList<>();
+
 
     public Date getEventTime() {
         return eventTime;
@@ -393,5 +408,21 @@ public class InternetGatewayDevice {
 
     public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
+    }
+
+    public List<ParameterValue> getParameterValues() {
+        return parameterValues;
+    }
+
+    public void setParameterValues(List<ParameterValue> parameterValues) {
+        this.parameterValues = parameterValues;
+    }
+
+    public List<DeviceSummary> getDeviceSummaries() {
+        return deviceSummaries;
+    }
+
+    public void setDeviceSummaries(List<DeviceSummary> deviceSummaries) {
+        this.deviceSummaries = deviceSummaries;
     }
 }

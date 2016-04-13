@@ -10,6 +10,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * Parses content with the following format:
+ *
+ * InternetGatewayDevice:1.3[](Baseline:1, EthernetLAN:1, ADSLWAN:1, EthernetWAN:1, Bridging:1, Time:1, DeviceAssociation:1, WiFiLAN:1, QoS:1, IPPing:1), VoiceService:1.0[1](SIPEndpoint:1, TAEndpoint:1)
+ *
  * Created by markmo on 10/04/2016.
  */
 public class DeviceSummaryParser {
