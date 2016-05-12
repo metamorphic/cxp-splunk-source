@@ -17,10 +17,12 @@
     <int:channel id="output"/>
 
     <int-splunk:inbound-channel-adapter id="splunkInboundChannelAdapter"
-                                        saved-search="${savedSearch}"
-                                        splunk-server-ref="splunkServer"
-                                        channel="input" mode="SAVEDSEARCH"
-                                        latest-time="now" init-earliest-time="-30d">
+        search="search ${searchQuery}"
+        mode="EXPORT"
+        splunk-server-ref="splunkServer"
+        channel="input"
+        latest-time="now"
+        init-earliest-time="${initEarliestTime}">
         <int:poller fixed-rate="${fixedDelay}" time-unit="${fixedDelayUnit}"/>
     </int-splunk:inbound-channel-adapter>
 
