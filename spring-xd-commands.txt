@@ -2,7 +2,7 @@ module upload --type source --name splunk --file ./build/libs/cxp-splunk-source-
 module upload --type processor --name cwmp-parser --file ../cxp-cwmp-parser/build/libs/cwmp-parser-1.0.jar
 
 
-stream create --name tr69_ingest --definition "splunk --host=localhost --username=XXX --password=XXX --owner=XXX --searchQuery='index=tr69 | table _raw' --cron="0 1 * * *" | cwmp-parser | filter --expression=#root.headers.get('TR69IngestErrorCode')=='0' | object-to-json | file --nameExpression='tr69_'+#{new java.text.SimpleDateFormat('yyyyMMdd').format(new java.util.Date())+'.json' --dir=/XXX" --deploy
+stream create --name tr69_ingest --definition "splunk --host=localhost --username=XXX --password=XXX --owner=XXX --searchQuery='index=tr69 | table _raw' --cron="*/10 1-4 * * *" | cwmp-parser | filter --expression=#root.headers.get('TR69IngestErrorCode')=='0' | object-to-json | file --nameExpression='tr69_'+#{new java.text.SimpleDateFormat('yyyyMMdd').format(new java.util.Date())+'.json' --dir=/XXX" --deploy
 
 stream create --name tr69_ingest_warnings --definition "tap:stream:tr69_ingest.cwmp-parser > filter --expression=#root.headers.get('TR69IngestErrorCode')=='1' | transform --expression=#root.headers.get('TR69IngestErrorMessage')+'|'+#root.headers.get('TR69IngestErrorDump') | file --nameExpression='tr69_ingest_warnings'+#{new java.text.SimpleDateFormat('yyyyMMdd').format(new java.util.Date())+'.txt' --dir=/XXX" --deploy
 
