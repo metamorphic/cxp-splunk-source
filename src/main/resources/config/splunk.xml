@@ -21,8 +21,10 @@
         mode="EXPORT"
         splunk-server-ref="splunkServer"
         channel="input"
+        earliest-time="${earliestTime" latest-time="${latestTime}"
         init-earliest-time="${initEarliestTime}">
-        <int:poller fixed-rate="${fixedDelay}" time-unit="${fixedDelayUnit}"/>
+        <!--<int:poller fixed-rate="${fixedDelay}" time-unit="${fixedDelayUnit}"/>-->
+        <int:poller cron="${cron}"/>
     </int-splunk:inbound-channel-adapter>
 
     <int-splunk:server id="splunkServer" host="${host}" port="${port}"
