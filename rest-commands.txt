@@ -1,0 +1,16 @@
+
+# start search job
+
+curl -k -u <username>:<password> https://localhost:8089/servicesNS/admin/search/saved/searches/<saved-search>/dispatch -d trigger_actions=1 -d dispatch.earliest_time="<epoch time | relative time interval>"
+
+e.g.
+curl -k -u <username>:<password> https://localhost:8089/servicesNS/admin/search/saved/searches/www1_access_20160331PM/dispatch -d trigger_actions=1 -d dispatch.earliest_time="1459386000"
+
+returns job-id
+
+# get search results
+
+curl -u <username>:<password> -k https://localhost:8089/services/search/jobs/<job-id>/results/ --get -d output_mode=csv
+
+
+curl -k -u <username>:<password> https://<host>:8089/services/search/jobs/export -d search="search index=tr69 | table _raw" -d earliest_time=@d-24h -d latest_time=@d-23h
